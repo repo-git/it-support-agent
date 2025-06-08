@@ -98,7 +98,8 @@ class ITSupportAgent:
     def __init__(self, config: Config):
         self.config = config
         self.model_manager = ModelManager(config)
-        self.screenshot_analyzer = ScreenshotAnalyzer(config)
+        # Passa il model manager allo screenshot analyzer
+        self.screenshot_analyzer = ScreenshotAnalyzer(self.model_manager)
         self.remote_control = RemoteControlHandler(config)
         self.sessions: Dict[str, Dict[str, Any]] = {}
         self.active_rooms: Dict[str, rtc.Room] = {}
