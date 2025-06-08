@@ -1,0 +1,120 @@
+# IT Support Agent Configuration
+agent:
+  name: "IT Support Assistant"
+  version: "1.0.0"
+  description: "AI-powered IT support agent with screen sharing and remote control capabilities"
+
+  # Agent behavior settings
+  personality:
+    friendly: true
+    patient: true
+    technical_level: "adaptive"  # adaptive, beginner, intermediate, expert
+    response_style: "step_by_step"
+
+  # Session management
+  session:
+    max_duration: 3600  # 1 hour in seconds
+    idle_timeout: 300   # 5 minutes
+    max_concurrent_sessions: 10
+    auto_screenshot_interval: 30  # seconds
+
+  # Voice settings
+  voice:
+    provider: "openai"  # openai, elevenlabs, google
+    model: "tts-1"
+    voice: "alloy"
+    speed: 1.0
+    language: "it-IT"
+
+  # Speech recognition
+  speech:
+    provider: "openai"  # openai, google, whisper
+    model: "whisper-1"
+    language: "it"
+    continuous_listening: true
+    noise_reduction: true
+
+  # Vision capabilities
+  vision:
+    screenshot_quality: "high"  # high, medium, low
+    auto_analysis: true
+    ui_detection: true
+    text_extraction: true
+    annotation_enabled: true
+
+  # Remote control settings
+  remote_control:
+    enabled: true
+    require_permission: true
+    timeout: 300  # 5 minutes
+    allowed_actions:
+      - "click"
+      - "type"
+      - "scroll"
+      - "drag"
+      - "key_combination"
+    restricted_areas:
+      - "system_settings"
+      - "security_panels"
+      - "admin_tools"
+
+  # Knowledge base
+  knowledge:
+    categories:
+      - "windows_issues"
+      - "mac_issues"
+      - "linux_issues"
+      - "network_problems"
+      - "software_installation"
+      - "hardware_diagnostics"
+      - "security_issues"
+    auto_learning: true
+    solution_confidence_threshold: 0.8
+
+# Logging configuration
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_path: "logs/agent.log"
+  max_file_size: "10MB"
+  backup_count: 5
+
+  # Log different events
+  events:
+    session_start: true
+    session_end: true
+    user_interactions: true
+    remote_actions: true
+    errors: true
+    performance_metrics: true
+
+# Security settings
+security:
+  encryption:
+    enabled: true
+    algorithm: "AES-256"
+
+  authentication:
+    required: true
+    token_expiry: 3600  # 1 hour
+    max_failed_attempts: 3
+
+  data_retention:
+    screenshots: 24  # hours
+    conversations: 72  # hours
+    logs: 168  # 1 week
+    solutions: 0  # permanent (0 = no deletion)
+
+# Performance settings
+performance:
+  max_memory_usage: "2GB"
+  max_cpu_usage: 80  # percentage
+  response_timeout: 30  # seconds
+  screenshot_compression: 80  # quality percentage
+
+  # Model optimization
+  model_settings:
+    max_tokens: 2000
+    temperature: 0.7
+    top_p: 0.95
+    frequency_penalty: 0.1

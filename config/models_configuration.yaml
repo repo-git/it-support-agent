@@ -1,0 +1,192 @@
+# AI Models Configuration
+models:
+  # Default provider priority
+  default_provider: "ollama"  # ollama, openai, gemini, claude
+
+  # Fallback chain if primary fails
+  fallback_chain:
+    - "ollama"
+    - "openai"
+    - "gemini"
+
+  # Provider configurations
+  providers:
+    ollama:
+      base_url: "http://localhost:11434"
+      timeout: 30
+      models:
+        chat: "llama3:latest"
+        vision: "llava:latest"
+        embedding: "nomic-embed-text:latest"
+      settings:
+        temperature: 0.7
+        max_tokens: 2000
+        top_p: 0.95
+        top_k: 40
+        repeat_penalty: 1.1
+
+    openai:
+      api_key: "${OPENAI_API_KEY}"
+      organization: "${OPENAI_ORG_ID}"
+      base_url: "https://api.openai.com/v1"
+      timeout: 30
+      models:
+        chat: "gpt-4-turbo"
+        vision: "gpt-4-vision-preview"
+        speech_to_text: "whisper-1"
+        text_to_speech: "tts-1"
+        embedding: "text-embedding-3-small"
+      settings:
+        temperature: 0.7
+        max_tokens: 2000
+        top_p: 0.95
+        frequency_penalty: 0.1
+        presence_penalty: 0.1
+
+    gemini:
+      api_key: "${GEMINI_API_KEY}"
+      base_url: "https://generativelanguage.googleapis.com/v1beta"
+      timeout: 30
+      models:
+        chat: "gemini-1.5-pro"
+        vision: "gemini-1.5-pro-vision"
+        embedding: "text-embedding-004"
+      settings:
+        temperature: 0.7
+        max_output_tokens: 2000
+        top_p: 0.95
+        top_k: 40
+
+    claude:
+      api_key: "${ANTHROPIC_API_KEY}"
+      base_url: "https://api.anthropic.com"
+      timeout: 30
+      models:
+        chat: "claude-3-sonnet-20240229"
+        vision: "claude-3-sonnet-20240229"
+      settings:
+        temperature: 0.7
+        max_tokens: 2000
+        top_p: 0.95
+
+# Task-specific model assignments
+tasks:
+  general_conversation:
+    primary: "ollama"
+    model: "llama3:latest"
+    fallback: "openai"
+
+  technical_analysis:
+    primary: "openai"
+    model: "gpt-4-turbo"
+    fallback: "gemini"
+
+  screenshot_analysis:
+    primary: "openai"
+    model: "gpt-4-vision-preview"
+    fallback: "gemini"
+
+  voice_recognition:
+    primary: "openai"
+    model: "whisper-1"
+    fallback: null
+
+  text_to_speech:
+    primary: "openai"
+    model: "tts-1"
+    fallback: null
+
+  problem_classification:
+    primary: "ollama"
+    model: "llama3:latest"
+    fallback: "openai"
+
+  solution_generation:
+    primary: "openai"
+    model: "gpt-4-turbo"
+    fallback: "gemini"
+
+# Performance optimization
+optimization:
+  # Model caching
+  cache:
+    enabled: true
+    ttl: 3600  # 1 hour
+    max_entries: 1000
+
+  # Request batching
+  batching:
+    enabled: true
+    max_batch_size: 5
+    timeout: 100  # milliseconds
+
+  # Connection pooling
+  connection_pool:
+    max_connections: 20
+    max_keepalive_connections: 5
+    keepalive_expiry: 300
+
+  # Retry logic
+  retry:
+    max_attempts: 3
+    backoff_factor: 2
+    max_backoff: 60
+
+# Model-specific prompts
+prompts:
+  system_prompts:
+    it_support: |
+      Sei un assistente IT esperto e paziente. Il tuo ruolo è aiutare gli utenti a risolvere problemi tecnici in modo chiaro e comprensibile.
+      
+      LINEE GUIDA:
+      - Parla in italiano in modo semplice e amichevole
+      - Fornisci istruzioni step-by-step dettagliate
+      - Chiedi conferma prima di procedere con azioni importanti
+      - Se vedi uno screenshot, analizzalo attentamente e descrivi cosa vedi
+      - Adatta il tuo linguaggio al livello tecnico dell'utente
+      - Mantieni sempre un tono professionale ma cordiale
+      
+      CAPACITÀ:
+      - Analisi di screenshot e problemi visivi
+      - Guida step-by-step per risoluzioni
+      - Controllo remoto sicuro (solo con permesso)
+      - Diagnosi di problemi comuni IT
+
+    screenshot_analysis: |
+      Analizza attentamente questo screenshot e fornisci:
+      1. Descrizione dettagliata di cosa vedi
+      2. Identifica eventuali errori o problemi visibili
+      3. Suggerisci soluzioni specifiche se applicabili
+      4. Evidenzia elementi UI importanti
+      
+      Rispondi in italiano in modo chiaro e professionale.
+
+    problem_classification: |
+      Classifica questo problema IT nelle seguenti categorie:
+      - Sistema Operativo (Windows/Mac/Linux)
+      - Rete e Connettività
+      - Software e Applicazioni
+      - Hardware
+      - Sicurezza
+      - Performance
+      
+      Fornisci anche una valutazione della priorità (Bassa/Media/Alta/Critica).
+
+# Quality assurance
+quality:
+  # Response validation
+  validation:
+    min_response_length: 10
+    max_response_length: 2000
+    check_language: "it"
+    check_toxicity: true
+
+  # Model performance monitoring
+  monitoring:
+    track_response_time: true
+    track_accuracy: true
+    track_user_satisfaction: true
+    alert_thresholds:
+      response_time: 5000  # ms
+      error_rate: 0.05  # 5%
+      satisfaction: 3.0  # out of 5
