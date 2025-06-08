@@ -61,7 +61,8 @@ class BaseAgent:
 
         # Componenti core
         self.model_manager = ModelManager(config)
-        self.screenshot_analyzer = ScreenshotAnalyzer(config)
+        # Passa l'istanza di ModelManager allo ScreenshotAnalyzer
+        self.screenshot_analyzer = ScreenshotAnalyzer(self.model_manager)
         self.control_handler = ControlHandler(config)
 
         # Stato sessioni
