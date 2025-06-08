@@ -1,0 +1,36 @@
+# LiveKit server configuration
+port: 7880
+bind_addresses:
+  - ""
+
+rtc:
+  tcp_port: 7881
+  port_range_start: 50000
+  port_range_end: 60000
+  use_external_ip: false
+
+keys:
+  # Generate these with: livekit-cli create-join-token
+  devkey: APIfGWJAGN7wvLXdlU9w4ZTK8Dg7ZRFGm3K2sVnXzR1
+  secret: dGhpc2lzYWRldmVsb3BtZW50c2VjcmV0Zm9ydGVzdGluZ29ubHk
+
+turn:
+  enabled: false
+
+webhook:
+  api_key: devkey
+  secret: dGhpc2lzYWRldmVsb3BtZW50c2VjcmV0Zm9ydGVzdGluZ29ubHk
+
+room:
+  enabled_codecs:
+    - mime: audio/opus
+    - mime: video/h264
+
+agent:
+  # Allow agents to connect
+  enabled: true
+
+development:
+  # Enable in development mode
+  enabled: true
+  log_level: debug
