@@ -41,3 +41,20 @@ def test_fallback_analysis_with_red():
     assert result["severity"] == "medium"
     assert len(result["issues"]) == 1
     assert result["issues"][0]["type"] == "possible_error"
+
+
+def test_parse_analysis_result_json():
+    analyzer = _new_analyzer()
+    json_text = '{"issues": [{"description": "ok", "type": "info"}]}'
+    parsed = analyzer._parse_analysis_result(json_text)
+
+    assert parsed["issues"][0]["description"] == "ok"
+
+
+def test_parse_analysis_result_text():
+    analyzer = _new_analyzer()
+    text = "Generic failure"
+    parsed = analyzer._parse_analysis_result(text)
+
+    assert parsed["issues"][0]["description"] == text
+    assert parsed["system_info"].get("raw_analysis")
