@@ -23,7 +23,7 @@ from livekit.agents.vad import VAD
 
 from ..ai.model_manager import ModelManager
 from ..vision.screenshot_analyzer import ScreenshotAnalyzer
-from ..remote.control_handler import ControlHandler
+from ..remote.control_handler import RemoteControlHandler
 from ..utils.config import Config
 from ..utils.logging_setup import setup_logging
 
@@ -63,7 +63,7 @@ class BaseAgent:
         self.model_manager = ModelManager(config)
         # Passa l'istanza di ModelManager allo ScreenshotAnalyzer
         self.screenshot_analyzer = ScreenshotAnalyzer(self.model_manager)
-        self.control_handler = ControlHandler(config)
+        self.control_handler = RemoteControlHandler(config)
 
         # Stato sessioni
         self.sessions: Dict[str, SessionState] = {}

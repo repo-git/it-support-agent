@@ -135,7 +135,11 @@ class ScreenshotAnalyzer:
             return self._fallback_analysis(image)
 
     def _fallback_analysis(self, image: Image.Image) -> str:
-        """Analisi di base senza modelli AI."""
+        """Analisi di base senza modelli AI.
+
+        Ritorna:
+            str: stringa JSON con i dati sull'analisi dello screenshot.
+        """
         width, height = image.size
 
         # Converti in OpenCV per analisi base

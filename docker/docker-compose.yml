@@ -1,6 +1,7 @@
 version: '3.8'
 
- livekit:
+services:
+  livekit:
     image: livekit/livekit-server:latest
     command: ["/livekit-server", "--config", "/etc/livekit.yaml"]
     ports:
